@@ -102,6 +102,7 @@ export function useMyReports() {
       return (data ?? []) as unknown as Report[];
     },
     enabled: !!user?.id,
+    refetchOnMount: 'always',
   });
 }
 
@@ -147,7 +148,7 @@ export function useCreateReport() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reports'] });
+      queryClient.invalidateQueries({ queryKey: ['reports', 'mine', user?.id] });
     },
   });
 }
