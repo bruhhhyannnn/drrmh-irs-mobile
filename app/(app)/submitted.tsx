@@ -79,7 +79,7 @@ function ReportCard({ report }: { report: Report }) {
           params: { id: report.id },
         })
       }
-      className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm active:opacity-80"
+      className="rounded-2xl border border-gray-100 bg-white p-4 shadow-xl active:opacity-80"
     >
       <View className="flex-row items-start justify-between">
         <View className="flex-1">

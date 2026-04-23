@@ -55,6 +55,17 @@ module.exports = {
       fontFamily: {
         outfit: ['Outfit_400Regular', 'sans-serif'],
       },
+      fontSize: {
+        xs: 12,
+        sm: 14,
+        base: 16,
+        lg: 18,
+        xl: 20,
+        '2xl': 24,
+        '3xl': 30,
+        '4xl': 38,
+        '5xl': 50,
+      },
     },
   },
   plugins: [],

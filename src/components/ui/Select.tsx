@@ -66,7 +66,7 @@ export function Select({
           <FlatList
             data={normalized}
             keyExtractor={(item) => item.value}
-            style={{ maxHeight: 320 }}
+            style={{ maxHeight: 360 }}
             contentContainerStyle={{ gap: 6, paddingHorizontal: 10, paddingVertical: 8 }}
             renderItem={({ item }) => (
               <TouchableOpacity

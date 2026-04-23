@@ -56,7 +56,7 @@ export default function HomeScreen() {
           )}
 
           {!isPending && !error && events?.length === 0 && (
-            <View className="items-center rounded-2xl border border-dashed border-gray-300 bg-white py-12">
+            <View className="items-center rounded-2xl border border-dashed border-gray-300 bg-white py-12 shadow-xl">
               <Text className="text-sm text-gray-400">No active events at this time</Text>
             </View>
           )}
