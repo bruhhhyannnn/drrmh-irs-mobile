@@ -19,6 +19,8 @@ export default function CreateReportScreen() {
   const { data: events } = useAllEvents();
 
   const [selectedCluster, setSelectedCluster] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const {
@@ -86,6 +88,8 @@ export default function CreateReportScreen() {
   // Resolve cluster name → cluster_id and clear unit/location when cluster changes
   const handleClusterChange = async (clusterName: string) => {
     setSelectedCluster(clusterName);
+    setSelectedUnit('');
+    setSelectedLocation('');
     setValue('unit_id', undefined);
     setValue('location_id', undefined);
 
@@ -97,8 +101,8 @@ export default function CreateReportScreen() {
     }
   };
 
-  // TODO: fix bug on not selecting
   const handleUnitChange = async (unitName: string) => {
+    setSelectedUnit(unitName);
     try {
       const ids = await resolveIds({ clusterName: selectedCluster, unitName });
       setValue('unit_id', ids.unit_id);
@@ -107,13 +111,10 @@ export default function CreateReportScreen() {
     }
   };
 
-  // TODO: fix bug on not selecting
   const handleLocationChange = async (locationName: string) => {
+    setSelectedLocation(locationName);
     try {
-      const ids = await resolveIds({
-        clusterName: selectedCluster,
-        locationName,
-      });
+      const ids = await resolveIds({ clusterName: selectedCluster, locationName });
       setValue('location_id', ids.location_id);
     } catch {
       console.warn('Location resolve failed');
@@ -159,7 +160,7 @@ export default function CreateReportScreen() {
               label="Unit"
               placeholder={selectedCluster ? 'Select unit' : 'Select cluster first'}
               options={unitOptions}
-              value={watch('unit_id') ? unitOptions.find((u) => u === watch('unit_id')) : undefined}
+              value={selectedUnit || undefined}
               onChange={handleUnitChange}
               disabled={!selectedCluster}
             />
@@ -169,11 +170,7 @@ export default function CreateReportScreen() {
               label="Location"
               placeholder={selectedCluster ? 'Select location' : 'Select cluster first'}
               options={locationOptions}
-              value={
-                watch('location_id')
-                  ? locationOptions.find((l) => l === watch('location_id'))
-                  : undefined
-              }
+              value={selectedLocation || undefined}
               onChange={handleLocationChange}
               disabled={!selectedCluster}
             />
@@ -181,14 +178,14 @@ export default function CreateReportScreen() {
             {/* Headcount */}
             <View className="rounded-2xl border border-gray-300 bg-white p-4 shadow-sm">
               <Text className="mb-3 text-base font-semibold text-gray-900">Headcount</Text>
-              <View className="gap-3">
+              <View className="flex-row flex-wrap gap-3">
                 {HEADCOUNT_FIELDS.map((field) => (
                   <Controller
                     key={field.key}
                     control={control}
                     name={field.key}
                     render={({ field: { value, onChange } }) => (
-                      <View className="flex-row items-center justify-between">
+                      <View className="w-[48%] flex-row items-center justify-between gap-2">
                         <Text className="flex-1 text-sm text-gray-700">{field.label}</Text>
                         <Input
                           value={String(value ?? 0)}
@@ -209,12 +206,12 @@ export default function CreateReportScreen() {
               <Text className="mb-3 text-base font-semibold text-gray-900">
                 Casualties & Missing
               </Text>
-              <View className="gap-3">
+              <View className="flex-row flex-wrap gap-3">
                 <Controller
                   control={control}
                   name="casualties_count"
                   render={({ field: { value, onChange } }) => (
-                    <View className="flex-row items-center justify-between">
+                    <View className="w-[48%] flex-row items-center justify-between gap-2">
                       <Text className="flex-1 text-sm text-gray-700">Casualties</Text>
                       <Input
                         value={String(value ?? 0)}
@@ -230,7 +227,7 @@ export default function CreateReportScreen() {
                   control={control}
                   name="missing_count"
                   render={({ field: { value, onChange } }) => (
-                    <View className="flex-row items-center justify-between">
+                    <View className="w-[48%] flex-row items-center justify-between gap-2">
                       <Text className="flex-1 text-sm text-gray-700">Missing Persons</Text>
                       <Input
                         value={String(value ?? 0)}
