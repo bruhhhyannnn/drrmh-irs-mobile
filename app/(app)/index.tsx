@@ -16,8 +16,8 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-brand-25">
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 24 }}>
         {/* Header */}
-        <View className="bg-brand-700 px-5 pb-6 pt-4">
-          <Text className="text-lg font-bold text-white">
+        <View className="bg-brand-700 px-5 py-6">
+          <Text className="text-2xl font-bold text-white">
             Hello, {user?.first_name} {user?.last_name}
           </Text>
           <Text className="text-sm text-blue-200">DRRM-H Incident Reporting System</Text>
@@ -79,8 +79,8 @@ function EventCard({ event }: { event: AppEvent }) {
     <Pressable
       onPress={() =>
         router.push({
-          pathname: '/(app)/report',
-          params: { event_id: event.id },
+          pathname: '/(app)/events/[id]',
+          params: { id: event.id },
         })
       }
       className="rounded-2xl border border-gray-100 bg-white p-4 shadow-xl active:opacity-80"
@@ -107,7 +107,7 @@ function EventCard({ event }: { event: AppEvent }) {
         </View>
         <View className="ml-3 flex-row items-center gap-1">
           <View className="rounded-full bg-green-100 px-2.5 py-0.5">
-            <Text className="text-xs font-medium text-green-700">Ongoing</Text>
+            <Text className="text-xs font-medium text-green-700">{event.status.name}</Text>
           </View>
           <ChevronRight size={16} color="#9ca3af" />
         </View>

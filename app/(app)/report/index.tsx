@@ -1,33 +1,39 @@
+import { ReportFormFields } from '@/components/reports/report-form-fields';
 import { Button, Input, Select } from '@/components/ui';
-import { resolveIds, useAllEvents, useCreateReport } from '@/hooks';
+import { useClusters, useCreateReport, useLocations, useOngoingEvents, useUnits } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';
-import { useOfflineStore } from '@/store';
-import { CLUSTERS, HEADCOUNT_FIELDS, LOCATIONS, UNITS, type Cluster } from '@/types';
+import { useAuthStore, useOfflineStore } from '@/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import NetInfo from '@react-native-community/netinfo';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CreateReportScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ event_id?: string }>();
+  const { user } = useAuthStore();
   const { enqueue } = useOfflineStore();
   const createReport = useCreateReport();
-  const { data: events } = useAllEvents();
+  const { data: events } = useOngoingEvents();
+  const { data: clusters = [] } = useClusters();
 
-  const [selectedCluster, setSelectedCluster] = useState('');
-  const [selectedUnit, setSelectedUnit] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedClusterId, setSelectedClusterId] = useState('');
+  const [selectedUnitId, setSelectedUnitId] = useState('');
+  const [selectedLocationId, setSelectedLocationId] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const { data: units = [] } = useUnits(selectedClusterId || undefined);
+  const { data: locations = [] } = useLocations(selectedClusterId || undefined);
 
   const {
     control,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<ReportFormData>({
     resolver: zodResolver(reportSchema),
@@ -51,12 +57,17 @@ export default function CreateReportScreen() {
     },
   });
 
-  const eventOptions = (events ?? []).map((e) => ({
-    label: e.name,
-    value: e.id,
-  }));
-  const unitOptions = selectedCluster ? (UNITS[selectedCluster as Cluster] ?? []) : [];
-  const locationOptions = selectedCluster ? (LOCATIONS[selectedCluster as Cluster] ?? []) : [];
+  useEffect(() => {
+    if (params.event_id) {
+      setValue('event_id', params.event_id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.event_id]);
+
+  const eventOptions = (events ?? []).map((e) => ({ label: e.name, value: e.id }));
+  const clusterOptions = clusters.map((c) => ({ label: c.name, value: c.id }));
+  const unitOptions = units.map((u) => ({ label: u.name, value: u.id }));
+  const locationOptions = locations.map((l) => ({ label: l.name, value: l.id }));
 
   const onSubmit = async (data: ReportFormData) => {
     setSubmitting(true);
@@ -64,7 +75,6 @@ export default function CreateReportScreen() {
       const net = await NetInfo.fetch();
 
       if (!net.isConnected) {
-        // Save to offline queue — IDs already resolved via form
         enqueue(data);
         Alert.alert(
           'Saved Offline',
@@ -75,8 +85,12 @@ export default function CreateReportScreen() {
       }
 
       await createReport.mutateAsync(data);
+      reset();
+      setSelectedClusterId('');
+      setSelectedUnitId('');
+      setSelectedLocationId('');
       Alert.alert('Success', 'Report submitted successfully.', [
-        { text: 'OK', onPress: () => router.push('/(app)/submitted') },
+        { text: 'OK', onPress: () => router.push('/(app)/my-reports') },
       ]);
     } catch (err) {
       Alert.alert('Error', err instanceof Error ? err.message : 'Failed to submit report');
@@ -85,40 +99,23 @@ export default function CreateReportScreen() {
     }
   };
 
-  // Resolve cluster name → cluster_id and clear unit/location when cluster changes
-  const handleClusterChange = async (clusterName: string) => {
-    setSelectedCluster(clusterName);
-    setSelectedUnit('');
-    setSelectedLocation('');
+  const handleClusterChange = (clusterId: string) => {
+    setSelectedClusterId(clusterId);
+    setSelectedUnitId('');
+    setSelectedLocationId('');
+    setValue('cluster_id', clusterId);
     setValue('unit_id', undefined);
     setValue('location_id', undefined);
-
-    try {
-      const ids = await resolveIds({ clusterName });
-      setValue('cluster_id', ids.cluster_id);
-    } catch {
-      Alert.alert('Error', `Cluster "${clusterName}" not found in database`);
-    }
   };
 
-  const handleUnitChange = async (unitName: string) => {
-    setSelectedUnit(unitName);
-    try {
-      const ids = await resolveIds({ clusterName: selectedCluster, unitName });
-      setValue('unit_id', ids.unit_id);
-    } catch {
-      console.warn('Unit resolve failed');
-    }
+  const handleUnitChange = (unitId: string) => {
+    setSelectedUnitId(unitId);
+    setValue('unit_id', unitId);
   };
 
-  const handleLocationChange = async (locationName: string) => {
-    setSelectedLocation(locationName);
-    try {
-      const ids = await resolveIds({ clusterName: selectedCluster, locationName });
-      setValue('location_id', ids.location_id);
-    } catch {
-      console.warn('Location resolve failed');
-    }
+  const handleLocationChange = (locationId: string) => {
+    setSelectedLocationId(locationId);
+    setValue('location_id', locationId);
   };
 
   return (
@@ -130,7 +127,7 @@ export default function CreateReportScreen() {
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: 32 }}>
           {/* Header */}
           <View className="py-5">
-            <Text className="text-xl font-bold text-gray-900">Submit Report</Text>
+            <Text className="text-2xl font-bold text-gray-900">Submit Status Report</Text>
             <Text className="text-sm text-gray-500">Fill in all required fields</Text>
           </View>
 
@@ -145,12 +142,20 @@ export default function CreateReportScreen() {
               error={errors.event_id?.message}
             />
 
+            {/* Full Name */}
+            <Input
+              label="Full Name"
+              value={`${user?.first_name ?? ''} ${user?.last_name ?? ''}`}
+              className="w-full"
+              editable={false}
+            />
+
             {/* Cluster */}
             <Select
               label="Cluster *"
               placeholder="Select cluster"
-              options={[...CLUSTERS]}
-              value={selectedCluster}
+              options={clusterOptions}
+              value={selectedClusterId || undefined}
               onChange={handleClusterChange}
               error={errors.cluster_id?.message}
             />
@@ -158,89 +163,24 @@ export default function CreateReportScreen() {
             {/* Unit */}
             <Select
               label="Unit"
-              placeholder={selectedCluster ? 'Select unit' : 'Select cluster first'}
+              placeholder={selectedClusterId ? 'Select unit' : 'Select cluster first'}
               options={unitOptions}
-              value={selectedUnit || undefined}
+              value={selectedUnitId || undefined}
               onChange={handleUnitChange}
-              disabled={!selectedCluster}
+              disabled={!selectedClusterId}
             />
 
             {/* Location */}
             <Select
               label="Location"
-              placeholder={selectedCluster ? 'Select location' : 'Select cluster first'}
+              placeholder={selectedClusterId ? 'Select location' : 'Select cluster first'}
               options={locationOptions}
-              value={selectedLocation || undefined}
+              value={selectedLocationId || undefined}
               onChange={handleLocationChange}
-              disabled={!selectedCluster}
+              disabled={!selectedClusterId}
             />
 
-            {/* Headcount */}
-            <View className="rounded-2xl border border-gray-300 bg-white p-4 shadow-sm">
-              <Text className="mb-3 text-base font-semibold text-gray-900">Headcount</Text>
-              <View className="flex-row flex-wrap gap-3">
-                {HEADCOUNT_FIELDS.map((field) => (
-                  <Controller
-                    key={field.key}
-                    control={control}
-                    name={field.key}
-                    render={({ field: { value, onChange } }) => (
-                      <View className="w-[48%] flex-row items-center justify-between gap-2">
-                        <Text className="flex-1 text-sm text-gray-700">{field.label}</Text>
-                        <Input
-                          value={String(value ?? 0)}
-                          onChangeText={(t) => onChange(parseInt(t, 10) || 0)}
-                          keyboardType="numeric"
-                          className="w-20"
-                          error={errors[field.key]?.message}
-                        />
-                      </View>
-                    )}
-                  />
-                ))}
-              </View>
-            </View>
-
-            {/* Casualties & Missing */}
-            <View className="rounded-2xl border border-gray-300 bg-white p-4 shadow-sm">
-              <Text className="mb-3 text-base font-semibold text-gray-900">
-                Casualties & Missing
-              </Text>
-              <View className="flex-row flex-wrap gap-3">
-                <Controller
-                  control={control}
-                  name="casualties_count"
-                  render={({ field: { value, onChange } }) => (
-                    <View className="w-[48%] flex-row items-center justify-between gap-2">
-                      <Text className="flex-1 text-sm text-gray-700">Casualties</Text>
-                      <Input
-                        value={String(value ?? 0)}
-                        onChangeText={(t) => onChange(parseInt(t, 10) || 0)}
-                        keyboardType="numeric"
-                        className="w-20"
-                        error={errors.casualties_count?.message}
-                      />
-                    </View>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="missing_count"
-                  render={({ field: { value, onChange } }) => (
-                    <View className="w-[48%] flex-row items-center justify-between gap-2">
-                      <Text className="flex-1 text-sm text-gray-700">Missing Persons</Text>
-                      <Input
-                        value={String(value ?? 0)}
-                        onChangeText={(t) => onChange(parseInt(t, 10) || 0)}
-                        keyboardType="numeric"
-                        className="w-20"
-                        error={errors.missing_count?.message}
-                      />
-                    </View>
-                  )}
-                />
-              </View>
-            </View>
+            <ReportFormFields control={control} errors={errors} />
 
             <Button
               onPress={handleSubmit(onSubmit)}

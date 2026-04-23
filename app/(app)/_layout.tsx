@@ -2,7 +2,7 @@ import { supabase } from '@/lib';
 import { useAuthStore, useOfflineStore } from '@/store';
 import NetInfo from '@react-native-community/netinfo';
 import { Redirect, Tabs } from 'expo-router';
-import { FileText, Home, Send } from 'lucide-react-native';
+import { FileText, Home, Send, User } from 'lucide-react-native';
 import { useEffect } from 'react';
 
 export default function AppLayout() {
@@ -42,15 +42,23 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="submitted"
+        name="my-reports"
         options={{
-          title: 'Submitted',
+          title: 'My Reports',
           tabBarIcon: ({ color, size }) => <Send size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
 
       {/* Hidden from tab bar but accessible via router.push */}
       <Tabs.Screen name="report/[id]" options={{ href: null }} />
+      <Tabs.Screen name="events/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

@@ -1,10 +1,10 @@
-import { Button, Input } from '@/components/ui';
+import { ReportFormFields } from '@/components/reports/report-form-fields';
+import { Button } from '@/components/ui';
 import { useReport, useUpdateReport } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';
-import { HEADCOUNT_FIELDS } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
   Alert,
@@ -83,19 +83,19 @@ export default function EditReportScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-brand-25">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: 32 }}>
           <View className="py-5">
-            <Text className="text-xl font-bold text-gray-900">Edit Report</Text>
+            <Text className="text-2xl font-bold text-gray-900">Edit Report</Text>
             <Text className="text-sm text-gray-500">{report.event.name}</Text>
           </View>
 
           {/* Read-only info */}
-          <View className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+          <View className="mb-4 rounded-2xl border border-gray-300 bg-white p-4 shadow-xl">
             <View className="flex-row justify-between">
               <Text className="text-sm text-gray-500">Cluster</Text>
               <Text className="text-sm font-medium text-gray-900">{report.cluster.name}</Text>
@@ -114,68 +114,7 @@ export default function EditReportScreen() {
             )}
           </View>
 
-          {/* Headcount */}
-          <View className="rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-base font-semibold text-gray-900">Headcount</Text>
-            <View className="gap-3">
-              {HEADCOUNT_FIELDS.map((field) => (
-                <Controller
-                  key={field.key}
-                  control={control}
-                  name={field.key}
-                  render={({ field: { value, onChange } }) => (
-                    <View className="flex-row items-center justify-between">
-                      <Text className="flex-1 text-sm text-gray-700">{field.label}</Text>
-                      <Input
-                        value={String(value ?? 0)}
-                        onChangeText={(t) => onChange(Number(t) || 0)}
-                        keyboardType="numeric"
-                        className="w-20"
-                        error={errors[field.key]?.message}
-                      />
-                    </View>
-                  )}
-                />
-              ))}
-            </View>
-          </View>
-
-          {/* Casualties & Missing */}
-          <View className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
-            <Text className="mb-3 text-base font-semibold text-gray-900">Casualties & Missing</Text>
-            <View className="gap-3">
-              <Controller
-                control={control}
-                name="casualties_count"
-                render={({ field: { value, onChange } }) => (
-                  <View className="flex-row items-center justify-between">
-                    <Text className="flex-1 text-sm text-gray-700">Casualties</Text>
-                    <Input
-                      value={String(value ?? 0)}
-                      onChangeText={(t) => onChange(Number(t) || 0)}
-                      keyboardType="numeric"
-                      className="w-20"
-                    />
-                  </View>
-                )}
-              />
-              <Controller
-                control={control}
-                name="missing_count"
-                render={({ field: { value, onChange } }) => (
-                  <View className="flex-row items-center justify-between">
-                    <Text className="flex-1 text-sm text-gray-700">Missing Persons</Text>
-                    <Input
-                      value={String(value ?? 0)}
-                      onChangeText={(t) => onChange(Number(t) || 0)}
-                      keyboardType="numeric"
-                      className="w-20"
-                    />
-                  </View>
-                )}
-              />
-            </View>
-          </View>
+          <ReportFormFields control={control} errors={errors} />
 
           <View className="mt-6 flex-row gap-3">
             <Button variant="secondary" onPress={() => router.back()} className="flex-1">

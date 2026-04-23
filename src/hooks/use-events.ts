@@ -33,6 +33,19 @@ async function fetchOngoingEvents(): Promise<AppEvent[]> {
   return (data ?? []) as unknown as AppEvent[];
 }
 
+async function fetchEvent(id: string): Promise<AppEvent | null> {
+  const { data, error } = await supabase
+    .from('events')
+    .select(
+      'id, name, description, quarter, started_at, ended_at, status:event_statuses(id, name), location:locations(id, name)'
+    )
+    .eq('id', id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return (data ?? null) as unknown as AppEvent;
+}
+
 async function fetchAllEvents(): Promise<AppEvent[]> {
   const { data, error } = await supabase
     .from('events')
@@ -43,6 +56,15 @@ async function fetchAllEvents(): Promise<AppEvent[]> {
 
   if (error) throw new Error(error.message);
   return (data ?? []) as unknown as AppEvent[];
+}
+
+export function useEvent(id: string) {
+  return useQuery({
+    queryKey: ['events', id],
+    queryFn: () => fetchEvent(id),
+    enabled: !!id,
+    staleTime: 1000 * 60 * 2,
+  });
 }
 
 export function useOngoingEvents() {

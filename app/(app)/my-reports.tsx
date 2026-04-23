@@ -6,14 +6,14 @@ import { ChevronRight, Clock, MapPin } from 'lucide-react-native';
 import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function SubmittedScreen() {
+export default function MyReportsScreen() {
   const { data: reports, isPending, isFetching, error, refetch } = useMyReports();
 
   return (
     <SafeAreaView className="flex-1 bg-brand-25">
       <View className="border-b border-gray-100 bg-white px-5 pb-4 pt-5">
         <View className="flex-row items-center justify-between">
-          <Text className="text-xl font-bold text-gray-900">My Reports</Text>
+          <Text className="text-2xl font-bold text-gray-900">My Reports</Text>
           {/* TODO: add the Spinner component here from the web app */}
           {isFetching && <ActivityIndicator size="small" color="#7f1616" />}
         </View>
