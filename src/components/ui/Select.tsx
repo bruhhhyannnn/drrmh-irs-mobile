@@ -39,7 +39,9 @@ export function Select({
 
   return (
     <View className={`gap-1 ${className}`}>
-      {label && <Text className="text-sm font-medium text-gray-700">{label}</Text>}
+      {label && (
+        <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</Text>
+      )}
 
       <Pressable
         onPress={() => !disabled && setOpen(true)}

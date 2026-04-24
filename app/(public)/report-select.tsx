@@ -1,46 +1,13 @@
+import { REPORT_TYPES, ReportType } from '@/types';
 import { useRouter } from 'expo-router';
+import { ArrowLeft, ArrowRight } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, Pressable, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { REPORT_TYPES, ReportType } from './constants';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH * 0.75;
 const CARD_GAP = 10;
-
-function CardIcon({ shape, color }: { shape: ReportType['iconShape']; color: string }) {
-  if (shape === 'triangle') {
-    return (
-      <View
-        className="opacity-90"
-        style={{
-          width: 0,
-          height: 0,
-          borderLeftWidth: 14,
-          borderRightWidth: 14,
-          borderBottomWidth: 28,
-          borderLeftColor: 'transparent',
-          borderRightColor: 'transparent',
-          borderBottomColor: color,
-        }}
-      />
-    );
-  }
-
-  return (
-    <View
-      className={[
-        'h-7 w-7 opacity-90',
-        shape === 'circle' && 'rounded-full',
-        shape === 'diamond' && 'rotate-45 rounded-sm',
-        shape === 'square' && 'rounded-sm',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      style={{ borderWidth: 2.5, borderColor: color }}
-    />
-  );
-}
 
 export default function ReportSelectScreen() {
   const router = useRouter();
@@ -105,15 +72,18 @@ export default function ReportSelectScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-950" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900" edges={['top', 'bottom']}>
       {/* Header */}
       <Animated.View style={headerStyle} className="px-6 pb-2 pt-4">
         <Pressable
           onPress={() => router.back()}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          className="mb-6 self-start"
+          className="mb-6"
         >
-          <Text className="text-sm text-gray-400 dark:text-gray-500">← Back to sign in</Text>
+          <View className="flex-row items-center gap-2">
+            <ArrowLeft size={16} color="#6b7280" />
+            <Text className="text-sm text-gray-400 dark:text-gray-500">Back to sign in</Text>
+          </View>
         </Pressable>
         <Text className="text-3xl font-bold text-gray-900 dark:text-white">
           What are you{'\n'}reporting?
@@ -230,9 +200,12 @@ export default function ReportSelectScreen() {
                         borderColor: item.accentColor + '40',
                       }}
                     >
-                      <Text className="text-sm font-semibold" style={{ color: item.accentColor }}>
-                        Select & Continue →
-                      </Text>
+                      <View className="flex-row items-center gap-2">
+                        <Text className="text-sm font-semibold" style={{ color: item.accentColor }}>
+                          Select & Continue
+                        </Text>
+                        <ArrowRight size={14} color={item.accentColor} />
+                      </View>
                     </View>
                   </View>
                 </Pressable>
@@ -260,5 +233,39 @@ export default function ReportSelectScreen() {
         ))}
       </Animated.View>
     </SafeAreaView>
+  );
+}
+
+function CardIcon({ shape, color }: { shape: ReportType['iconShape']; color: string }) {
+  if (shape === 'triangle') {
+    return (
+      <View
+        className="opacity-90"
+        style={{
+          width: 0,
+          height: 0,
+          borderLeftWidth: 14,
+          borderRightWidth: 14,
+          borderBottomWidth: 28,
+          borderLeftColor: 'transparent',
+          borderRightColor: 'transparent',
+          borderBottomColor: color,
+        }}
+      />
+    );
+  }
+
+  return (
+    <View
+      className={[
+        'h-7 w-7 opacity-90',
+        shape === 'circle' && 'rounded-full',
+        shape === 'diamond' && 'rotate-45 rounded-sm',
+        shape === 'square' && 'rounded-sm',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      style={{ borderWidth: 2.5, borderColor: color }}
+    />
   );
 }

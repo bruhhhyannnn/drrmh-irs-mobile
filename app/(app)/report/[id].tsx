@@ -2,6 +2,7 @@ import { ReportFormFields } from '@/components/reports';
 import { Button } from '@/components/ui';
 import { useReport, useUpdateReport } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
@@ -48,6 +49,13 @@ export default function EditReportScreen() {
           guests: report.guests,
           missing_count: report.missing_count,
           casualties_count: report.casualties_count,
+          damage_condition_id: report.damages[0]?.damage_condition_id ?? undefined,
+          casualties: report.casualties.map((c) => ({
+            condition_id: c.condition_id,
+            names: c.names ?? undefined,
+          })),
+          missing_persons: report.missing_persons.map((mp) => ({ name: mp.name })),
+          reporter_type: report.reporter_type,
         }
       : undefined,
   });
@@ -100,6 +108,7 @@ export default function EditReportScreen() {
               <Text className="text-sm text-gray-500">Cluster</Text>
               <Text className="text-sm font-medium text-gray-900">{report.cluster.name}</Text>
             </View>
+            {/* TODO: might change this one to be editable not read-only */}
             {report.unit && (
               <View className="mt-2 flex-row justify-between">
                 <Text className="text-sm text-gray-500">Unit</Text>
@@ -114,7 +123,9 @@ export default function EditReportScreen() {
             )}
           </View>
 
-          <ReportFormFields control={control} errors={errors} />
+          <View className="gap-4">
+            <ReportFormFields control={control} errors={errors} />
+          </View>
 
           <View className="mt-6 flex-row gap-3">
             <Button variant="secondary" onPress={() => router.back()} className="flex-1">

@@ -54,6 +54,10 @@ export default function CreateReportScreen() {
       guests: 0,
       missing_count: 0,
       casualties_count: 0,
+      damage_condition_id: undefined,
+      casualties: [],
+      missing_persons: [],
+      reporter_type: 'authenticated',
     },
   });
 
