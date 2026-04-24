@@ -47,7 +47,7 @@ export default function SignInScreen() {
       const userTypeName = (profile.user_type as unknown as { name: string })?.name ?? '';
       if (userTypeName !== 'ERT Member') {
         await supabase.auth.signOut();
-        throw new Error('Access denied. Only ERT Members can use this app.');
+        throw new Error('Your account does not have access to this resource.');
       }
 
       setUser({
@@ -71,13 +71,14 @@ export default function SignInScreen() {
   };
 
   return (
+    // TODO: redesign entirely
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-brand-900"
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         <View className="flex-1 items-center justify-center px-6 py-12">
-          {/* Logo area */}
+          {/* TODO: add the logo area here instead of text */}
           <View className="mb-10 items-center gap-3">
             <View className="h-20 w-20 items-center justify-center rounded-2xl bg-white/10">
               <Text className="text-4xl font-bold text-white">IRS</Text>

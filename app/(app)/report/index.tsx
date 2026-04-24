@@ -1,4 +1,4 @@
-import { ReportFormFields } from '@/components/reports/report-form-fields';
+import { ReportFormFields } from '@/components/reports';
 import { Button, Input, Select } from '@/components/ui';
 import { useClusters, useCreateReport, useLocations, useOngoingEvents, useUnits } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';

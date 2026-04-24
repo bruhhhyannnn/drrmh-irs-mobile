@@ -1,4 +1,4 @@
-import { ReportFormFields } from '@/components/reports/report-form-fields';
+import { ReportFormFields } from '@/components/reports';
 import { Button } from '@/components/ui';
 import { useReport, useUpdateReport } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';

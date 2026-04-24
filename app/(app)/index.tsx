@@ -1,5 +1,4 @@
-import type { AppEvent } from '@/hooks';
-import { useOngoingEvents } from '@/hooks';
+import { useAllEvents, type AppEvent } from '@/hooks';
 import { useAuthStore, useOfflineStore } from '@/store';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
@@ -10,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen() {
   const { user } = useAuthStore();
   const { queue } = useOfflineStore();
-  const { data: events, isPending, isFetching, error, refetch } = useOngoingEvents();
+  const { data: events, isPending, isFetching, error, refetch } = useAllEvents();
 
   return (
     <SafeAreaView className="flex-1 bg-brand-25">
