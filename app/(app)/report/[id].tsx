@@ -73,8 +73,7 @@ export default function EditReportScreen() {
 
   if (isPending) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50">
-        {/* TODO: add the Spinner component here from the web app */}
+      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50 dark:bg-gray-950">
         <ActivityIndicator size="large" color="#7f1616" />
       </SafeAreaView>
     );
@@ -82,7 +81,7 @@ export default function EditReportScreen() {
 
   if (error || !report) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50 px-6">
+      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50 px-6 dark:bg-gray-950">
         <Text className="text-center text-sm text-red-500">
           {error?.message ?? 'Report not found'}
         </Text>
@@ -91,34 +90,34 @@ export default function EditReportScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25">
+    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: 32 }}>
           <View className="py-5">
-            <Text className="text-2xl font-bold text-gray-900">Edit Report</Text>
-            <Text className="text-sm text-gray-500">{report.event.name}</Text>
+            <Text className="text-2xl font-bold text-gray-900 dark:text-white">Edit Report</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">{report.event.name}</Text>
           </View>
 
           {/* Read-only info */}
-          <View className="mb-4 rounded-2xl border border-gray-300 bg-white p-4 shadow-xl">
+          <View className="mb-4 rounded-2xl border border-gray-300 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
             <View className="flex-row justify-between">
-              <Text className="text-sm text-gray-500">Cluster</Text>
-              <Text className="text-sm font-medium text-gray-900">{report.cluster.name}</Text>
+              <Text className="text-sm text-gray-500 dark:text-gray-400">Cluster</Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.cluster.name}</Text>
             </View>
             {/* TODO: might change this one to be editable not read-only */}
             {report.unit && (
               <View className="mt-2 flex-row justify-between">
-                <Text className="text-sm text-gray-500">Unit</Text>
-                <Text className="text-sm font-medium text-gray-900">{report.unit.name}</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">Unit</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.unit.name}</Text>
               </View>
             )}
             {report.location && (
               <View className="mt-2 flex-row justify-between">
-                <Text className="text-sm text-gray-500">Location</Text>
-                <Text className="text-sm font-medium text-gray-900">{report.location.name}</Text>
+                <Text className="text-sm text-gray-500 dark:text-gray-400">Location</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.location.name}</Text>
               </View>
             )}
           </View>

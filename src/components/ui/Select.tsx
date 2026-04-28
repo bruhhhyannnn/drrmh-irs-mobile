@@ -1,6 +1,14 @@
 import { Check, ChevronDown } from 'lucide-react-native';
 import { useState } from 'react';
-import { FlatList, Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SelectOption {
@@ -34,6 +42,7 @@ export function Select({
   className = '',
 }: SelectProps) {
   const [open, setOpen] = useState(false);
+  const isDark = useColorScheme() === 'dark';
   const normalized = normalizeOptions(options);
   const selected = normalized.find((o) => o.value === value);
 
@@ -46,22 +55,26 @@ export function Select({
       <Pressable
         onPress={() => !disabled && setOpen(true)}
         className={`flex-row items-center justify-between rounded-xl border px-4 py-3 ${
-          error ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-white'
+          error
+            ? 'border-red-500 bg-red-50 dark:bg-red-950'
+            : 'border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900'
         } ${disabled ? 'opacity-60' : ''}`}
       >
-        <Text className={`text-base ${selected ? 'text-gray-900' : 'text-gray-400'}`}>
+        <Text
+          className={`text-base ${selected ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'}`}
+        >
           {selected ? selected.label : placeholder}
         </Text>
-        <ChevronDown size={18} color="#6b7280" />
+        <ChevronDown size={18} color={isDark ? '#6b7280' : '#6b7280'} />
       </Pressable>
 
       {error && <Text className="text-xs text-red-500">{error}</Text>}
 
       <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
         <Pressable className="flex-1 bg-black/40" onPress={() => setOpen(false)} />
-        <SafeAreaView className="rounded-t-2xl bg-brand-25">
-          <View className="border-b border-gray-100 px-4 py-4">
-            <Text className="text-center text-base font-semibold text-gray-900">
+        <SafeAreaView className="rounded-t-2xl border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+          <View className="border-b border-gray-100 px-4 py-4 dark:border-gray-800">
+            <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
               {label ?? 'Select'}
             </Text>
           </View>
@@ -76,24 +89,26 @@ export function Select({
                   onChange?.(item.value);
                   setOpen(false);
                 }}
-                className="flex-row items-center justify-between rounded-xl bg-white px-4 py-4 shadow-md"
+                className="flex-row items-center justify-between rounded-xl bg-white px-4 py-4 shadow-md dark:bg-gray-700"
               >
                 <Text
-                  className={`text-base ${item.value === value ? 'font-semibold text-brand-600' : ' text-brand-800'}`}
+                  className={`text-base ${item.value === value ? 'font-semibold text-brand-600' : 'text-brand-800 dark:text-gray-300'}`}
                 >
                   {item.label}
                 </Text>
                 {item.value === value && <Check size={18} color="#7f1616" />}
               </TouchableOpacity>
             )}
-            ItemSeparatorComponent={() => <View className="mx-4 h-px bg-gray-100" />}
+            ItemSeparatorComponent={() => (
+              <View className="mx-4 h-px bg-gray-100 dark:bg-gray-700" />
+            )}
           />
           <View className="px-4 py-4">
             <Pressable
               onPress={() => setOpen(false)}
-              className="items-center rounded-xl bg-gray-200 py-3"
+              className="items-center rounded-xl bg-gray-200 py-3 dark:bg-gray-700/50"
             >
-              <Text className="font-medium text-gray-700">Cancel</Text>
+              <Text className="font-medium text-gray-700 dark:text-gray-300">Cancel</Text>
             </Pressable>
           </View>
         </SafeAreaView>

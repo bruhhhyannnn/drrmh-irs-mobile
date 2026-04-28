@@ -180,6 +180,15 @@ export type ReportType = {
 
 export const REPORT_TYPES: ReportType[] = [
   {
+    id: 'emergency',
+    title: 'Emergency Report',
+    subtitle: 'Emergency Status Report',
+    description: 'Accidents, injuries, or any unexpected event that requires immediate attention.',
+    accentColor: '#eab308',
+    dimColor: '#422006',
+    iconShape: 'diamond',
+  },
+  {
     id: 'incident',
     title: 'National Simultaneous Earthquake Drill Report',
     subtitle: 'NSED Status Report',

@@ -4,10 +4,13 @@ import NetInfo from '@react-native-community/netinfo';
 import { Redirect, Tabs } from 'expo-router';
 import { FileText, Home, Send, User } from 'lucide-react-native';
 import { useEffect } from 'react';
+import { useColorScheme } from 'react-native';
 
 export default function AppLayout() {
   const { isAuthenticated } = useAuthStore();
   const { queue } = useOfflineStore();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   useOfflineSync();
 
@@ -18,10 +21,10 @@ export default function AppLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#7f1616',
-        tabBarInactiveTintColor: '#98a2b3',
+        tabBarInactiveTintColor: isDark ? '#6b7280' : '#98a2b3',
         tabBarStyle: {
-          borderTopColor: '#7f1616',
-          backgroundColor: '#ffffff',
+          borderTopColor: isDark ? '#1f2937' : '#e5e7eb',
+          backgroundColor: isDark ? '#111827' : '#ffffff',
         },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500' },
       }}

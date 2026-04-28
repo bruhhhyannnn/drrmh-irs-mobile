@@ -123,7 +123,7 @@ export default function CreateReportScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25">
+    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
@@ -131,8 +131,8 @@ export default function CreateReportScreen() {
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: 32 }}>
           {/* Header */}
           <View className="py-5">
-            <Text className="text-2xl font-bold text-gray-900">Submit Status Report</Text>
-            <Text className="text-sm text-gray-500">Fill in all required fields</Text>
+            <Text className="text-2xl font-bold text-gray-900 dark:text-white">Submit Status Report</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">Fill in all required fields</Text>
           </View>
 
           <View className="gap-4">

@@ -75,7 +75,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
   return (
     <>
       {/* ── Headcount ─────────────────────────────────────────────────────────── */}
-      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-white/20 dark:bg-white/10">
+      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
           Headcount
         </Text>
@@ -105,7 +105,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
       </View>
 
       {/* ── Casualties ────────────────────────────────────────────────────────── */}
-      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-white/20 dark:bg-white/10">
+      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
           Casualties
         </Text>
@@ -130,8 +130,13 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
           />
 
           {casualtyFields.map((field, index) => (
-            <View key={field.id} className="gap-2 rounded-xl border border-gray-200 bg-gray-50 p-3">
-              <Text className="text-xs font-semibold text-gray-500">Casualty {index + 1}</Text>
+            <View
+              key={field.id}
+              className="gap-2 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900"
+            >
+              <Text className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                Casualty {index + 1}
+              </Text>
 
               <Controller
                 control={control}
@@ -166,7 +171,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
       </View>
 
       {/* ── Missing Persons ───────────────────────────────────────────────────── */}
-      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-white/20 dark:bg-white/10">
+      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
           Missing Persons
         </Text>
@@ -210,7 +215,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
       </View>
 
       {/* ── Damage Report ─────────────────────────────────────────────────────── */}
-      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-white/20 dark:bg-white/10">
+      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
           Damage Report
         </Text>

@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { LogOut, Mail, Shield, Tag, User } from 'lucide-react-native';
-import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
@@ -38,6 +38,9 @@ export default function ProfileScreen() {
     staleTime: Infinity,
   });
 
+  const isDark = useColorScheme() === 'dark';
+  const iconColor = isDark ? '#9ca3af' : '#667085';
+
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
       { text: 'Cancel', style: 'cancel' },
@@ -54,7 +57,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25">
+    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Header */}
         <View className="bg-brand-700 px-5 pb-8 pt-5">
@@ -71,23 +74,23 @@ export default function ProfileScreen() {
         </View>
 
         {/* Info card */}
-        <View className="mx-4 mt-4 rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <ProfileRow icon={<Mail size={18} color="#667085" />} label="Email" value={user?.email} />
+        <View className="mx-4 mt-4 rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <ProfileRow icon={<Mail size={18} color={iconColor} />} label="Email" value={user?.email} />
           <Divider />
           <ProfileRow
-            icon={<Tag size={18} color="#667085" />}
+            icon={<Tag size={18} color={iconColor} />}
             label="Position"
             value={positionName ?? (user?.position_id ? '—' : 'Not assigned')}
           />
           <Divider />
           <ProfileRow
-            icon={<Shield size={18} color="#667085" />}
+            icon={<Shield size={18} color={iconColor} />}
             label="Unit"
             value={unitName ?? (user?.unit_id ? '—' : 'Not assigned')}
           />
           <Divider />
           <ProfileRow
-            icon={<User size={18} color="#667085" />}
+            icon={<User size={18} color={iconColor} />}
             label="Role"
             value={user?.user_type_name}
           />
@@ -97,10 +100,10 @@ export default function ProfileScreen() {
         <View className="mx-4 mt-4">
           <TouchableOpacity
             onPress={handleSignOut}
-            className="flex-row items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 py-4"
+            className="flex-row items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 py-4 dark:border-red-900 dark:bg-red-950"
           >
             <LogOut size={18} color="#d92d20" />
-            <Text className="text-base font-semibold text-red-600">Sign Out</Text>
+            <Text className="text-base font-semibold text-red-600 dark:text-red-400">Sign Out</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -121,13 +124,13 @@ function ProfileRow({
     <View className="flex-row items-center gap-3 px-4 py-4">
       {icon}
       <View className="flex-1">
-        <Text className="text-xs text-gray-400">{label}</Text>
-        <Text className="text-sm font-medium text-gray-900">{value ?? '—'}</Text>
+        <Text className="text-xs text-gray-400 dark:text-gray-500">{label}</Text>
+        <Text className="text-sm font-medium text-gray-900 dark:text-white">{value ?? '—'}</Text>
       </View>
     </View>
   );
 }
 
 function Divider() {
-  return <View className="mx-4 h-px bg-gray-100" />;
+  return <View className="mx-4 h-px bg-gray-100 dark:bg-gray-800" />;
 }

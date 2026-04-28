@@ -81,13 +81,13 @@ export default function SignInScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-900" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950" edges={['top', 'bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-          <View className="flex-1 items-center justify-center px-6 py-12">
+          <View className="flex-1 items-center justify-center  px-6 py-12">
             {/* Logo area */}
             <View className="mb-10 items-center gap-3">
               <View className="h-20 w-20 items-center justify-center rounded-2xl bg-white/10">
@@ -98,8 +98,10 @@ export default function SignInScreen() {
             </View>
 
             {/* Sign in card */}
-            <View className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
-              <Text className="mb-6 text-xl font-bold text-gray-900">Sign In</Text>
+            <View className="w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-6 shadow-lg dark:border-gray-800 dark:bg-gray-900">
+              <Text className="mb-6 text-xl font-bold text-gray-900 dark:text-gray-25">
+                Sign In
+              </Text>
 
               <View className="gap-4">
                 <Controller
@@ -142,21 +144,25 @@ export default function SignInScreen() {
 
               {/* Divider */}
               <View className="my-5 flex-row items-center gap-3">
-                <View className="h-px flex-1 bg-gray-200" />
-                <Text className="text-xs text-gray-400">or</Text>
-                <View className="h-px flex-1 bg-gray-200" />
+                <View className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+                <Text className="text-xs text-gray-400 dark:text-gray-500">or</Text>
+                <View className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
               </View>
 
               {/* Bystander report button */}
               <Pressable
                 onPress={() => router.push('/(public)/report-select')}
-                className="w-full flex-row items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-3 active:bg-red-100"
+                className="w-full flex-row items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-3 active:bg-red-100 dark:border-red-900 dark:bg-red-950 dark:active:bg-red-900"
               >
                 <View className="h-2 w-2 rounded-full bg-red-500" />
-                <Text className="text-sm font-medium text-red-700">Report an Incident</Text>
+                <Text className="text-sm font-medium text-red-700 dark:text-red-400">
+                  Report an Incident
+                </Text>
               </Pressable>
 
-              <Text className="mt-2 text-center text-xs text-gray-400">No account needed</Text>
+              <Text className="mt-2 text-center text-xs text-gray-400 dark:text-gray-500">
+                No account needed
+              </Text>
             </View>
 
             <Text className="mt-8 text-center text-xs text-gray-100">

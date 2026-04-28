@@ -33,7 +33,7 @@ export default function ReportSubmitScreen() {
   const { data: events } = useOngoingEvents();
   const { data: clusters = [] } = useClusters();
 
-const [selectedClusterId, setSelectedClusterId] = useState('');
+  const [selectedClusterId, setSelectedClusterId] = useState('');
   const [selectedUnitId, setSelectedUnitId] = useState('');
   const [selectedLocationId, setSelectedLocationId] = useState('');
 
@@ -117,8 +117,8 @@ const [selectedClusterId, setSelectedClusterId] = useState('');
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             className="mb-3 flex-row items-center gap-2 self-start"
           >
-            <ArrowLeft size={16} color="#6b7280" />
-            <Text className="text-sm text-gray-400 dark:text-gray-500">Back</Text>
+            <ArrowLeft size={18} color="#6b7280" />
+            <Text className="text-gray-400 dark:text-gray-500">Back</Text>
           </Pressable>
 
           <View>
@@ -135,7 +135,7 @@ const [selectedClusterId, setSelectedClusterId] = useState('');
           showsVerticalScrollIndicator={false}
         >
           {/* Event & Assignment */}
-          <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-white/20 dark:bg-white/10">
+          <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
             <Text className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
               Event & Assignment
             </Text>

@@ -81,12 +81,12 @@ export default function ReportSelectScreen() {
           className="mb-6"
         >
           <View className="flex-row items-center gap-2">
-            <ArrowLeft size={16} color="#6b7280" />
-            <Text className="text-sm text-gray-400 dark:text-gray-500">Back to sign in</Text>
+            <ArrowLeft size={18} color="#6b7280" />
+            <Text className="text-gray-400 dark:text-gray-500">Back to sign in</Text>
           </View>
         </Pressable>
         <Text className="text-3xl font-bold text-gray-900 dark:text-white">
-          What are you{'\n'}reporting?
+          What are you reporting?
         </Text>
         <Text className="mt-2 text-sm text-gray-400 dark:text-gray-500">
           Swipe to browse · No account needed
@@ -183,7 +183,7 @@ export default function ReportSelectScreen() {
                     </Text>
 
                     {/* Title */}
-                    <Text className="mb-3 text-2xl font-bold leading-tight text-gray-900 dark:text-white">
+                    <Text className="mb-3 text-3xl font-bold leading-tight text-gray-900 dark:text-white">
                       {item.title}
                     </Text>
 

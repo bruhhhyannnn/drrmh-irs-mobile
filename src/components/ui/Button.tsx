@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, useColorScheme, View } from 'react-native';
 
 interface ButtonProps {
   onPress?: () => void;
@@ -17,17 +17,17 @@ const baseStyles = 'flex-row items-center justify-center gap-2 rounded-xl';
 
 const variantStyles = {
   primary: 'bg-brand-500 active:bg-brand-600 shadow-md',
-  secondary: 'bg-gray-200 active:bg-gray-300',
-  outline: 'bg-white border border-gray-300 active:bg-gray-50',
-  ghost: 'bg-transparent active:bg-gray-100',
+  secondary: 'bg-gray-200 active:bg-gray-300 dark:bg-gray-700 dark:active:bg-gray-600',
+  outline: 'bg-white border border-gray-300 active:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:active:bg-gray-800',
+  ghost: 'bg-transparent active:bg-gray-100 dark:active:bg-gray-800',
   danger: 'bg-error-500 active:bg-error-600 shadow-md',
 };
 
 const textStyles = {
   primary: 'text-white',
-  secondary: 'text-gray-800',
-  outline: 'text-gray-700',
-  ghost: 'text-gray-600',
+  secondary: 'text-gray-800 dark:text-gray-200',
+  outline: 'text-gray-700 dark:text-gray-300',
+  ghost: 'text-gray-600 dark:text-gray-400',
   danger: 'text-white',
 };
 
@@ -55,6 +55,7 @@ export function Button({
   disabled = false,
   className = '',
 }: ButtonProps) {
+  const isDark = useColorScheme() === 'dark';
   const isDisabled = disabled || loading;
 
   return (
@@ -67,7 +68,7 @@ export function Button({
         <>
           <ActivityIndicator
             size="small"
-            color={variant === 'primary' || variant === 'danger' ? '#fff' : '#344054'}
+            color={variant === 'primary' || variant === 'danger' ? '#fff' : isDark ? '#e5e7eb' : '#344054'}
           />
           <Text className={`font-medium ${textStyles[variant]} ${textSizeStyles[size]}`}>
             {loadingText ?? children}

@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, useColorScheme, View } from 'react-native';
 
 interface InputProps {
   label?: string;
@@ -31,6 +31,8 @@ export function Input({
   numberOfLines = 1,
   className = '',
 }: InputProps) {
+  const isDark = useColorScheme() === 'dark';
+
   return (
     <View className={`gap-1 ${className}`}>
       {label && (
@@ -47,9 +49,11 @@ export function Input({
         editable={editable}
         multiline={multiline}
         numberOfLines={multiline ? numberOfLines : undefined}
-        placeholderTextColor="#9ca3af"
-        className={`rounded-xl border px-4 py-3 text-base text-gray-900 ${
-          error ? 'border-red-500 bg-red-50' : 'border-gray-300 bg-white'
+        placeholderTextColor={isDark ? '#6b7280' : '#9ca3af'}
+        className={`rounded-xl border px-4 py-3 text-base text-gray-900 dark:text-white ${
+          error
+            ? 'border-red-500 bg-red-50 dark:bg-red-950'
+            : 'border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900'
         } ${!editable ? 'opacity-60' : ''} ${multiline ? 'min-h-[80px] text-start' : ''}`}
       />
       {error && <Text className="text-xs text-red-500">{error}</Text>}
