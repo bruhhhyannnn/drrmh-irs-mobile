@@ -1,7 +1,7 @@
 import { supabase } from '@/lib';
 import { useQuery } from '@tanstack/react-query';
 
-export interface Location {
+interface Location {
   id: string;
   name: string;
   cluster_id: string;

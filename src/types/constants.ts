@@ -1,7 +1,10 @@
+// TODO: might remove already since we fetch to database not use this
 export const CLUSTERS = ['Pedro Gil', 'Padre Faura', 'Taft', 'SHS', 'PGH'] as const;
 
+// TODO: unused, might remove
 export type Cluster = (typeof CLUSTERS)[number];
 
+// TODO: might remove already since we fetch to database not use this
 export const UNITS: Record<Cluster, string[]> = {
   'Pedro Gil': [
     'College of Nursing',
@@ -41,6 +44,7 @@ export const UNITS: Record<Cluster, string[]> = {
   ],
 };
 
+// TODO: might remove already since we fetch to database not use this
 export const LOCATIONS: Record<Cluster, string[]> = {
   'Pedro Gil': [
     'Sotejo Hall',
@@ -91,6 +95,7 @@ export const LOCATIONS: Record<Cluster, string[]> = {
   ],
 };
 
+// TODO: might remove already since we fetch to database not use this
 export const POSITIONS = [
   // From the form dropdown
   'Head of Unit',
@@ -149,6 +154,7 @@ export const POSITIONS = [
   'Other (please specify)',
 ] as const;
 
+// TODO: might remove already since we fetch to database not use this
 export const EVENT_STATUSES = ['upcoming', 'ongoing', 'completed'] as const;
 
 export const HEADCOUNT_FIELDS = [
@@ -166,6 +172,7 @@ export const HEADCOUNT_FIELDS = [
   { key: 'guests', label: 'Visitors / Guests / Patients' },
 ] as const;
 
+// TODO: unused, might remove
 export type HeadcountKey = (typeof HEADCOUNT_FIELDS)[number]['key'];
 
 export type ReportType = {
@@ -184,8 +191,8 @@ export const REPORT_TYPES: ReportType[] = [
     title: 'Emergency Report',
     subtitle: 'Emergency Status Report',
     description: 'Accidents, injuries, or any unexpected event that requires immediate attention.',
-    accentColor: '#eab308',
-    dimColor: '#422006',
+    accentColor: '#f97316',
+    dimColor: '#431407',
     iconShape: 'diamond',
   },
   {
@@ -197,23 +204,4 @@ export const REPORT_TYPES: ReportType[] = [
     dimColor: '#450a0a',
     iconShape: 'triangle',
   },
-  // TODO: might remove for carousel of report types
-  // {
-  //   id: 'mass-casualty',
-  //   title: 'Mass Casualty',
-  //   subtitle: 'Multiple persons affected',
-  //   description: 'Events involving multiple casualties requiring large-scale emergency response.',
-  //   accentColor: '#f97316',
-  //   dimColor: '#431407',
-  //   iconShape: 'triangle',
-  // },
-  // {
-  //   id: 'fire-hazard',
-  //   title: 'Fire / Hazard',
-  //   subtitle: 'Fire or chemical threat',
-  //   description: 'Active fires, chemical spills, or environmental hazards posing immediate risk.',
-  //   accentColor: '#eab308',
-  //   dimColor: '#422006',
-  //   iconShape: 'diamond',
-  // },
 ];

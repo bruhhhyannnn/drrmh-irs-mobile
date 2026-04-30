@@ -105,19 +105,25 @@ export default function EditReportScreen() {
           <View className="mb-4 rounded-2xl border border-gray-300 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
             <View className="flex-row justify-between">
               <Text className="text-sm text-gray-500 dark:text-gray-400">Cluster</Text>
-              <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.cluster.name}</Text>
+              <Text className="text-sm font-medium text-gray-900 dark:text-white">
+                {report.cluster.name}
+              </Text>
             </View>
             {/* TODO: might change this one to be editable not read-only */}
             {report.unit && (
               <View className="mt-2 flex-row justify-between">
                 <Text className="text-sm text-gray-500 dark:text-gray-400">Unit</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.unit.name}</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">
+                  {report.unit.name}
+                </Text>
               </View>
             )}
             {report.location && (
               <View className="mt-2 flex-row justify-between">
                 <Text className="text-sm text-gray-500 dark:text-gray-400">Location</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-white">{report.location.name}</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">
+                  {report.location.name}
+                </Text>
               </View>
             )}
           </View>

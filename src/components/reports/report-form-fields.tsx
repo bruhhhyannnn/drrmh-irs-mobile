@@ -153,6 +153,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
                 )}
               />
 
+              {/* TODO: add age and sex input components */}
               <Controller
                 control={control}
                 name={`casualties.${index}.names`}
@@ -195,6 +196,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
             )}
           />
 
+          {/* TODO: add age and sex input components */}
           {missingFields.map((field, index) => (
             <Controller
               key={field.id}

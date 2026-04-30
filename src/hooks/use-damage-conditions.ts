@@ -1,7 +1,7 @@
 import { supabase } from '@/lib';
 import { useQuery } from '@tanstack/react-query';
 
-export interface DamageCondition {
+interface DamageCondition {
   id: string;
   name: string;
 }

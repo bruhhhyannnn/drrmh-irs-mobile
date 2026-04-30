@@ -75,7 +75,11 @@ export default function ProfileScreen() {
 
         {/* Info card */}
         <View className="mx-4 mt-4 rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
-          <ProfileRow icon={<Mail size={18} color={iconColor} />} label="Email" value={user?.email} />
+          <ProfileRow
+            icon={<Mail size={18} color={iconColor} />}
+            label="Email"
+            value={user?.email}
+          />
           <Divider />
           <ProfileRow
             icon={<Tag size={18} color={iconColor} />}

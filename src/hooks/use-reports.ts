@@ -1,7 +1,7 @@
 import type { BystanderReportFormData, ReportFormData } from '@/lib';
 import { supabase } from '@/lib';
-import { HEADCOUNT_FIELDS } from '@/types';
 import { useAuthStore } from '@/store';
+import { HEADCOUNT_FIELDS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export interface ReportCasualtyEntry {
@@ -71,50 +71,7 @@ const REPORT_DETAIL_SELECT = `
   damages:report_damages(id, damage_condition_id)
 `;
 
-// ─── Lookup helpers ───────────────────────────────────────────────────────────
-
-async function resolveIds(params: {
-  clusterName: string;
-  unitName?: string;
-  locationName?: string;
-}): Promise<{ cluster_id: string; unit_id?: string; location_id?: string }> {
-  const { data: cluster, error: cErr } = await supabase
-    .from('clusters')
-    .select('id')
-    .eq('name', params.clusterName)
-    .single();
-
-  if (cErr || !cluster) throw new Error(`Cluster "${params.clusterName}" not found`);
-
-  const result: { cluster_id: string; unit_id?: string; location_id?: string } = {
-    cluster_id: cluster.id,
-  };
-
-  if (params.unitName) {
-    const { data: unit } = await supabase
-      .from('units')
-      .select('id')
-      .eq('name', params.unitName)
-      .eq('cluster_id', cluster.id)
-      .single();
-    if (unit) result.unit_id = unit.id;
-  }
-
-  if (params.locationName) {
-    const { data: location } = await supabase
-      .from('locations')
-      .select('id')
-      .eq('name', params.locationName)
-      .eq('cluster_id', cluster.id)
-      .single();
-    if (location) result.location_id = location.id;
-  }
-
-  return result;
-}
-
 // ─── Hooks ────────────────────────────────────────────────────────────────────
-
 export function useMyReports() {
   const { user } = useAuthStore();
 
@@ -294,7 +251,12 @@ export function useCreateBystanderReport() {
 
       const casualtyRows = (casualties ?? [])
         .filter((c) => !!c.condition_id)
-        .map((c) => ({ report_id: report.id, condition_id: c.condition_id!, count: 1, names: c.names }));
+        .map((c) => ({
+          report_id: report.id,
+          condition_id: c.condition_id!,
+          count: 1,
+          names: c.names,
+        }));
       if (casualtyRows.length > 0) {
         const { error: cErr } = await supabase.from('report_casualties').insert(casualtyRows);
         if (cErr) throw new Error(`Casualties: ${cErr.message}`);
@@ -320,5 +282,3 @@ export function useCreateBystanderReport() {
     },
   });
 }
-
-export { resolveIds };

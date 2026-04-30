@@ -63,14 +63,18 @@ export default function EventDetailScreen() {
         {/* Main card */}
         <View className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <View className="mb-3 flex-row items-start justify-between gap-2">
-            <Text className="flex-1 text-2xl font-bold text-gray-900 dark:text-white">{event.name}</Text>
+            <Text className="flex-1 text-2xl font-bold text-gray-900 dark:text-white">
+              {event.name}
+            </Text>
             <View className={`rounded-full px-3 py-1 ${statusStyle.bg}`}>
               <Text className={`text-xs font-semibold ${statusStyle.text}`}>{statusName}</Text>
             </View>
           </View>
 
           {event.description ? (
-            <Text className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">{event.description}</Text>
+            <Text className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+              {event.description}
+            </Text>
           ) : null}
         </View>
 
@@ -81,7 +85,9 @@ export default function EventDetailScreen() {
               <MapPin size={16} color={iconColor} />
               <View>
                 <Text className="text-xs text-gray-400 dark:text-gray-500">Location</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-white">{event.location.name}</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">
+                  {event.location.name}
+                </Text>
               </View>
             </View>
           )}
@@ -115,7 +121,9 @@ export default function EventDetailScreen() {
               <FileText size={16} color={iconColor} />
               <View>
                 <Text className="text-xs text-gray-400 dark:text-gray-500">Quarter</Text>
-                <Text className="text-sm font-medium text-gray-900 dark:text-white">{event.quarter}</Text>
+                <Text className="text-sm font-medium text-gray-900 dark:text-white">
+                  {event.quarter}
+                </Text>
               </View>
             </View>
           )}

@@ -2,7 +2,7 @@ import type { ReportFormData } from '@/lib';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface QueuedReport {
+interface QueuedReport {
   id: string;
   payload: ReportFormData;
   createdAt: string;
