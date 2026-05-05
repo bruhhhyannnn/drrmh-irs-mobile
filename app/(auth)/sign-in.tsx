@@ -72,7 +72,7 @@ export default function SignInScreen() {
         user_type_name: userTypeName,
       });
 
-      router.replace('/(app)');
+      router.replace('/(app)/(home)');
     } catch (err) {
       Alert.alert('Sign In Failed', err instanceof Error ? err.message : 'An error occurred');
     } finally {

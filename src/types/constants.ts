@@ -1,7 +1,7 @@
 // TODO: might remove already since we fetch to database not use this
 export const CLUSTERS = ['Pedro Gil', 'Padre Faura', 'Taft', 'SHS', 'PGH'] as const;
 
-// TODO: unused, might remove
+// TODO: might remove already since we fetch to database not use this
 export type Cluster = (typeof CLUSTERS)[number];
 
 // TODO: might remove already since we fetch to database not use this
@@ -172,7 +172,7 @@ export const HEADCOUNT_FIELDS = [
   { key: 'guests', label: 'Visitors / Guests / Patients' },
 ] as const;
 
-// TODO: unused, might remove
+// TODO: might remove already since we fetch to database not use this
 export type HeadcountKey = (typeof HEADCOUNT_FIELDS)[number]['key'];
 
 export type ReportType = {

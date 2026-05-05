@@ -75,7 +75,7 @@ function ReportCard({ report }: { report: Report }) {
     <Pressable
       onPress={() =>
         router.push({
-          pathname: '/(app)/report/[id]',
+          pathname: '/report/[id]',
           params: { id: report.id },
         })
       }

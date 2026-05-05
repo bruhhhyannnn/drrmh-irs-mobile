@@ -94,7 +94,7 @@ export default function CreateReportScreen() {
       setSelectedUnitId('');
       setSelectedLocationId('');
       Alert.alert('Success', 'Report submitted successfully.', [
-        { text: 'OK', onPress: () => router.push('/(app)/my-reports') },
+        { text: 'OK', onPress: () => router.push('/(app)/(my-reports)') },
       ]);
     } catch (err) {
       Alert.alert('Error', err instanceof Error ? err.message : 'Failed to submit report');

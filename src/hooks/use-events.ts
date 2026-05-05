@@ -16,7 +16,7 @@ async function fetchOngoingEvents(): Promise<AppEvent[]> {
   const { data: statusRow, error: statusError } = await supabase
     .from('event_statuses')
     .select('id')
-    .eq('name', 'Ongoing')
+    .eq('name', 'ongoing')
     .single();
 
   if (statusError || !statusRow) return [];

@@ -30,14 +30,14 @@ export default function AppLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: 'Home',
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="report/index"
+        name="report"
         options={{
           title: 'Report',
           tabBarIcon: ({ color, size }) => <FileText size={size} color={color} />,
@@ -45,7 +45,7 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="my-reports"
+        name="(my-reports)"
         options={{
           title: 'My Reports',
           tabBarIcon: ({ color, size }) => <Send size={size} color={color} />,
@@ -58,10 +58,6 @@ export default function AppLayout() {
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
-
-      {/* Hidden from tab bar but accessible via router.push */}
-      <Tabs.Screen name="report/[id]" options={{ href: null }} />
-      <Tabs.Screen name="events/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

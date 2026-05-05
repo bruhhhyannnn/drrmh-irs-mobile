@@ -83,7 +83,7 @@ function EventCard({ event }: { event: AppEvent }) {
     <Pressable
       onPress={() =>
         router.push({
-          pathname: '/(app)/events/[id]',
+          pathname: '/events/[id]',
           params: { id: event.id },
         })
       }
