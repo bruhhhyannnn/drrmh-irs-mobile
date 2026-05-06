@@ -1,8 +1,8 @@
 import { ReportFormFields } from '@/components/reports';
-import { Button, Input, Select } from '@/components/ui';
+import { Button, Select } from '@/components/ui';
 import { useClusters, useCreateReport, useLocations, useOngoingEvents, useUnits } from '@/hooks';
 import { reportSchema, type ReportFormData } from '@/lib';
-import { useAuthStore, useOfflineStore } from '@/store';
+import { useOfflineStore } from '@/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import NetInfo from '@react-native-community/netinfo';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -14,7 +14,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function CreateReportScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ event_id?: string }>();
-  const { user } = useAuthStore();
   const { enqueue } = useOfflineStore();
   const createReport = useCreateReport();
   const { data: events } = useOngoingEvents();
@@ -123,23 +122,19 @@ export default function CreateReportScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
-        <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingBottom: 32 }}>
+        <ScrollView className="" contentContainerStyle={{ paddingBottom: 32 }}>
           {/* Header */}
-          <View className="py-5">
-            <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-              Submit Status Report
-            </Text>
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              Fill in all required fields
-            </Text>
+          <View className="bg-brand-700 px-5 py-6">
+            <Text className="text-2xl font-bold text-white">Submit Status Report</Text>
+            <Text className="text-sm text-gray-400">Fill in all required fields</Text>
           </View>
 
-          <View className="gap-4">
+          <View className="flex-1 gap-4 p-4">
             {/* Event */}
             <Select
               label="Event *"
@@ -148,14 +143,6 @@ export default function CreateReportScreen() {
               value={watch('event_id')}
               onChange={(v) => setValue('event_id', v)}
               error={errors.event_id?.message}
-            />
-
-            {/* Full Name */}
-            <Input
-              label="Full Name"
-              value={`${user?.first_name ?? ''} ${user?.last_name ?? ''}`}
-              className="w-full"
-              editable={false}
             />
 
             {/* Cluster */}

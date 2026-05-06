@@ -39,7 +39,7 @@ export default function ProfileScreen() {
   });
 
   const isDark = useColorScheme() === 'dark';
-  const iconColor = isDark ? '#9ca3af' : '#667085';
+  const iconColor = isDark ? '#667085' : '#98a2b3';
 
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
@@ -57,24 +57,26 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 32 }}>
         {/* Header */}
-        <View className="bg-brand-700 px-5 pb-8 pt-5">
+        <View className="flex flex-row gap-3 bg-brand-700 px-5 pb-8 pt-5">
           <View className="h-16 w-16 items-center justify-center rounded-full bg-white/20">
             <Text className="text-2xl font-bold text-white">
-              {user?.first_name?.[0]}
-              {user?.last_name?.[0]}
+              {user?.first_name?.[0].toUpperCase()}
+              {user?.last_name?.[0].toUpperCase()}
             </Text>
           </View>
-          <Text className="mt-3 text-2xl font-bold text-white">
-            {user?.first_name} {user?.last_name}
-          </Text>
-          <Text className="text-sm text-blue-200">{user?.user_type_name}</Text>
+          <View>
+            <Text className="mt-3 text-2xl font-bold text-white">
+              {user?.first_name} {user?.last_name}
+            </Text>
+            <Text className="text-sm text-blue-200">{user?.user_type_name}</Text>
+          </View>
         </View>
 
         {/* Info card */}
-        <View className="mx-4 mt-4 rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+        <View className="mx-4 mt-4 rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900">
           <ProfileRow
             icon={<Mail size={18} color={iconColor} />}
             label="Email"
@@ -104,10 +106,11 @@ export default function ProfileScreen() {
         <View className="mx-4 mt-4">
           <TouchableOpacity
             onPress={handleSignOut}
-            className="flex-row items-center justify-center gap-2 rounded-2xl border border-red-200 bg-red-50 py-4 dark:border-red-900 dark:bg-red-950"
+            activeOpacity={0.7}
+            className="flex-row items-center justify-center gap-2 rounded-2xl border border-brand-100 bg-brand-25 py-4 shadow-md dark:border-brand-900 dark:bg-brand-950"
           >
-            <LogOut size={18} color="#d92d20" />
-            <Text className="text-base font-semibold text-red-600 dark:text-red-400">Sign Out</Text>
+            <LogOut size={18} color="#a11d1d" />
+            <Text className="text-base font-semibold text-brand-500">Sign Out</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -125,7 +128,7 @@ function ProfileRow({
   value?: string | null;
 }) {
   return (
-    <View className="flex-row items-center gap-3 px-4 py-4">
+    <View className="flex-row items-center gap-3 px-4 py-5">
       {icon}
       <View className="flex-1">
         <Text className="text-xs text-gray-400 dark:text-gray-500">{label}</Text>

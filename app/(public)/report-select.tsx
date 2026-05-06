@@ -2,7 +2,15 @@ import { REPORT_TYPES, ReportType } from '@/types';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, ArrowRight } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, Pressable, Text, useColorScheme, View } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -75,7 +83,8 @@ export default function ReportSelectScreen() {
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-900" edges={['top', 'bottom']}>
       {/* Header */}
       <Animated.View style={headerStyle} className="px-6 pb-2 pt-4">
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.7}
           onPress={() => router.back()}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           className="mb-6"
@@ -84,7 +93,7 @@ export default function ReportSelectScreen() {
             <ArrowLeft size={18} color="#6b7280" />
             <Text className="text-gray-400 dark:text-gray-500">Back to sign in</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
         <Text className="text-3xl font-bold text-gray-900 dark:text-white">
           What are you reporting?
         </Text>

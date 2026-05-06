@@ -3,7 +3,14 @@ import { useAuthStore, useOfflineStore } from '@/store';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
 import { AlertCircle, Calendar, ChevronRight, MapPin } from 'lucide-react-native';
-import { ActivityIndicator, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -12,14 +19,14 @@ export default function HomeScreen() {
   const { data: events, isPending, isFetching, error, refetch } = useAllEvents();
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 24 }}>
         {/* Header */}
         <View className="bg-brand-700 px-5 py-6">
           <Text className="text-2xl font-bold text-white">
             Hello, {user?.first_name} {user?.last_name}
           </Text>
-          <Text className="text-sm text-blue-200">DRRM-H Incident Reporting System</Text>
+          <Text className="text-sm text-gray-400">DRRM-H Incident Reporting System</Text>
         </View>
 
         {/* Offline queue banner */}
@@ -35,18 +42,21 @@ export default function HomeScreen() {
         {/* Active Events */}
         <View className="px-4 pt-5">
           <View className="mb-3 flex-row items-center justify-between">
-            <Text className="text-base font-bold text-gray-900 dark:text-white">Active Events</Text>
+            <Text className="text-base font-bold text-gray-600 dark:text-gray-400">
+              Active Events
+            </Text>
             {isFetching && <ActivityIndicator size="small" color="#7f1616" />}
           </View>
 
           {error && (
-            <Pressable
+            <TouchableOpacity
               onPress={() => refetch()}
+              activeOpacity={0.7}
               className="items-center rounded-xl bg-red-50 py-8 dark:bg-red-950"
             >
               <Text className="text-sm text-red-600 dark:text-red-400">{error.message}</Text>
               <Text className="mt-1 text-xs text-red-400 dark:text-red-500">Tap to retry</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
 
           {isPending && !error && (
@@ -80,14 +90,15 @@ function EventCard({ event }: { event: AppEvent }) {
   const iconColor = isDark ? '#9ca3af' : '#6b7280';
 
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.7}
       onPress={() =>
         router.push({
           pathname: '/events/[id]',
           params: { id: event.id },
         })
       }
-      className="rounded-2xl border border-gray-100 bg-white p-4 active:opacity-80 dark:border-gray-800 dark:bg-gray-900"
+      className="rounded-2xl border border-gray-200 bg-white p-4 shadow-lg active:opacity-80 dark:border-gray-800 dark:bg-gray-900"
     >
       <View className="flex-row items-start justify-between">
         <View className="flex-1">
@@ -121,6 +132,6 @@ function EventCard({ event }: { event: AppEvent }) {
           <ChevronRight size={16} color={isDark ? '#6b7280' : '#9ca3af'} />
         </View>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }

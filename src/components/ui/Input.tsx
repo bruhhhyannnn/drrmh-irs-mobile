@@ -53,7 +53,7 @@ export function Input({
         className={`rounded-xl border px-4 py-3 text-base text-gray-900 dark:text-white ${
           error
             ? 'border-red-500 bg-red-50 dark:bg-red-950'
-            : 'border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900'
+            : 'border-gray-300 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900'
         } ${!editable ? 'opacity-60' : ''} ${multiline ? 'min-h-[80px] text-start' : ''}`}
       />
       {error && <Text className="text-xs text-red-500">{error}</Text>}

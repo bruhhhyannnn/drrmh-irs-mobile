@@ -4,7 +4,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, Calendar, FileText, MapPin } from 'lucide-react-native';
 import {
   ActivityIndicator,
-  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -23,7 +22,7 @@ export default function EventDetailScreen() {
 
   if (isPending) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-brand-25 dark:bg-gray-950">
+      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50 dark:bg-gray-950">
         <ActivityIndicator size="large" color="#7f1616" />
       </SafeAreaView>
     );
@@ -31,7 +30,7 @@ export default function EventDetailScreen() {
 
   if (error || !event) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-brand-25 px-6 dark:bg-gray-950">
+      <SafeAreaView className="flex-1 items-center justify-center bg-gray-50 px-6 dark:bg-gray-950">
         <Text className="text-center text-sm text-red-500">
           {error?.message ?? 'Event not found'}
         </Text>
@@ -48,12 +47,12 @@ export default function EventDetailScreen() {
         : { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-600 dark:text-gray-400' };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       {/* Header */}
       <View className="flex-row items-center gap-3 border-b border-gray-100 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
-        <Pressable onPress={() => router.back()} className="p-1">
+        <TouchableOpacity activeOpacity={0.7} onPress={() => router.back()} className="p-1">
           <ArrowLeft size={22} color={isDark ? '#f9fafb' : '#1d2939'} />
-        </Pressable>
+        </TouchableOpacity>
         <Text className="flex-1 text-lg font-bold text-gray-900 dark:text-white" numberOfLines={1}>
           Event Details
         </Text>
@@ -134,6 +133,7 @@ export default function EventDetailScreen() {
       {statusName === 'Ongoing' && (
         <View className="border-t border-gray-100 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
           <TouchableOpacity
+            activeOpacity={0.7}
             onPress={() =>
               router.push({
                 pathname: '/(app)/report',

@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, Text, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 
 interface ButtonProps {
   onPress?: () => void;
@@ -16,7 +16,7 @@ interface ButtonProps {
 const baseStyles = 'flex-row items-center justify-center gap-2 rounded-xl';
 
 const variantStyles = {
-  primary: 'bg-brand-500 active:bg-brand-600 shadow-md',
+  primary: 'bg-brand-600 active:bg-brand-600 shadow-md',
   secondary: 'bg-gray-200 active:bg-gray-300 dark:bg-gray-700 dark:active:bg-gray-600',
   outline:
     'bg-white border border-gray-300 active:bg-gray-50 dark:bg-gray-900 dark:border-gray-700 dark:active:bg-gray-800',
@@ -60,9 +60,10 @@ export function Button({
   const isDisabled = disabled || loading;
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       disabled={isDisabled}
+      activeOpacity={0.7}
       className={` ${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${isDisabled ? 'opacity-50' : ''} ${className} `}
     >
       {loading ? (
@@ -90,6 +91,6 @@ export function Button({
           {endIcon && <View>{endIcon}</View>}
         </>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 }

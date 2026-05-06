@@ -18,9 +18,9 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -112,14 +112,15 @@ export default function ReportSubmitScreen() {
       >
         {/* Header */}
         <View className="border-b border-gray-200 bg-white px-4 pb-4 pt-4 dark:border-gray-800 dark:bg-gray-950">
-          <Pressable
+          <TouchableOpacity
+            activeOpacity={0.7}
             onPress={() => router.back()}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             className="mb-3 flex-row items-center gap-2 self-start"
           >
             <ArrowLeft size={18} color="#6b7280" />
             <Text className="text-gray-400 dark:text-gray-500">Back</Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <View>
             <Text className="text-xl font-bold text-gray-900 dark:text-white">{title}</Text>

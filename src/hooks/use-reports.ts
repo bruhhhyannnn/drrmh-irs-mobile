@@ -125,7 +125,12 @@ export function useCreateReport() {
 
       const { data: report, error } = await supabase
         .from('reports')
-        .insert({ ...reportData, user_id: user?.id ?? null })
+        .insert({
+          ...reportData,
+          user_id: user?.id ?? null,
+          is_verified: payload.reporter_type === 'authenticated' && !!user?.id,
+          verified_by: payload.reporter_type === 'authenticated' ? (user?.id ?? null) : null,
+        })
         .select()
         .single();
 

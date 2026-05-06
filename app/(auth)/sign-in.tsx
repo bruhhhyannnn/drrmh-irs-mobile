@@ -11,9 +11,9 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -81,7 +81,7 @@ export default function SignInScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950" edges={['top', 'bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
@@ -150,7 +150,8 @@ export default function SignInScreen() {
               </View>
 
               {/* Bystander report button */}
-              <Pressable
+              <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => router.push('/(public)/report-select')}
                 className="w-full flex-row items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-3 active:bg-red-100 dark:border-red-900 dark:bg-red-950 dark:active:bg-red-900"
               >
@@ -158,7 +159,7 @@ export default function SignInScreen() {
                 <Text className="text-sm font-medium text-red-700 dark:text-red-400">
                   Report an Incident
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
 
               <Text className="mt-2 text-center text-xs text-gray-400 dark:text-gray-500">
                 No account needed

@@ -90,7 +90,7 @@ export default function EditReportScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"

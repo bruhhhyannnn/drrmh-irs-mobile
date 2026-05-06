@@ -3,18 +3,25 @@ import { useMyReports } from '@/hooks';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
 import { ChevronRight, Clock, MapPin } from 'lucide-react-native';
-import { ActivityIndicator, FlatList, Pressable, Text, useColorScheme, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MyReportsScreen() {
   const { data: reports, isPending, error, refetch } = useMyReports();
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-25 dark:bg-gray-950">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950">
       {/* Header */}
       <View className="bg-brand-700 px-5 py-6">
         <Text className="text-2xl font-bold text-white">My Reports</Text>
-        <Text className="text-sm text-gray-200">{reports?.length ?? 0} submitted</Text>
+        <Text className="text-sm text-gray-400">{reports?.length ?? 0} submitted</Text>
       </View>
 
       {isPending && (
@@ -24,13 +31,14 @@ export default function MyReportsScreen() {
       )}
 
       {error && (
-        <Pressable
+        <TouchableOpacity
+          activeOpacity={0.7}
           onPress={() => refetch()}
           className="mx-4 mt-4 items-center rounded-xl bg-red-50 py-8 dark:bg-red-950"
         >
           <Text className="text-sm text-red-600 dark:text-red-400">{error.message}</Text>
           <Text className="mt-1 text-xs text-red-400 dark:text-red-500">Tap to retry</Text>
-        </Pressable>
+        </TouchableOpacity>
       )}
 
       <FlatList
@@ -55,7 +63,7 @@ export default function MyReportsScreen() {
 function ReportCard({ report }: { report: Report }) {
   const router = useRouter();
   const isDark = useColorScheme() === 'dark';
-  const iconColor = isDark ? '#9ca3af' : '#6b7280';
+  const iconColor = isDark ? '#667085' : '#98a2b3';
 
   const totalHeadcount =
     report.faculty_members +
@@ -72,21 +80,22 @@ function ReportCard({ report }: { report: Report }) {
     report.guests;
 
   return (
-    <Pressable
+    <TouchableOpacity
+      activeOpacity={0.7}
       onPress={() =>
         router.push({
           pathname: '/report/[id]',
           params: { id: report.id },
         })
       }
-      className="rounded-2xl border border-gray-100 bg-white p-4 active:opacity-80 dark:border-gray-800 dark:bg-gray-900"
+      className="rounded-2xl border border-gray-200 bg-white p-4 shadow-lg active:opacity-80 dark:border-gray-800 dark:bg-gray-900"
     >
       <View className="flex-row items-start justify-between">
         <View className="flex-1">
           <Text className="text-lg font-semibold text-gray-900 dark:text-white" numberOfLines={1}>
             {report.event.name}
           </Text>
-          <View className="mt-2 flex-row items-center gap-1">
+          <View className="mt-2 flex-row items-center gap-2">
             <MapPin size={16} color={iconColor} />
             <Text className="text-xs text-gray-500 dark:text-gray-400">{report.cluster.name}</Text>
             {report.unit && (
@@ -96,18 +105,16 @@ function ReportCard({ report }: { report: Report }) {
               </Text>
             )}
           </View>
-          <View className="mt-2 flex-row items-center gap-1">
+          <View className="mt-2 flex-row items-center gap-2">
             <Clock size={16} color={iconColor} />
             <Text className="text-xs text-gray-500 dark:text-gray-400">
               {format(new Date(report.submitted_at), 'MMM d, yyyy h:mm a')}
             </Text>
           </View>
         </View>
-        <View className="ml-3 flex-row items-center gap-2 ">
+        <View className="ml-3 flex-row items-center gap-2">
           <View className="items-end">
-            <Text className="text-lg font-bold text-brand-800 dark:text-brand-400">
-              {totalHeadcount}
-            </Text>
+            <Text className="text-lg font-bold text-brand-600">{totalHeadcount}</Text>
             <Text className="text-xs text-gray-400 dark:text-gray-500">headcount</Text>
           </View>
           <ChevronRight size={16} color={isDark ? '#6b7280' : '#9ca3af'} />
@@ -132,6 +139,6 @@ function ReportCard({ report }: { report: Report }) {
           )}
         </View>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 }
