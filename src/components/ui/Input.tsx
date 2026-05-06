@@ -1,6 +1,6 @@
-import { Text, TextInput, useColorScheme, View } from 'react-native';
+import { Text, TextInput, TextInputProps, useColorScheme, View } from 'react-native';
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   label?: string;
   placeholder?: string;
   value?: string;
@@ -29,6 +29,7 @@ export function Input({
   editable = true,
   multiline = false,
   numberOfLines = 1,
+  maxLength,
   className = '',
 }: InputProps) {
   const isDark = useColorScheme() === 'dark';
@@ -50,6 +51,7 @@ export function Input({
         multiline={multiline}
         numberOfLines={multiline ? numberOfLines : undefined}
         placeholderTextColor={isDark ? '#6b7280' : '#9ca3af'}
+        maxLength={maxLength}
         className={`rounded-xl border px-4 py-3 text-base text-gray-900 dark:text-white ${
           error
             ? 'border-red-500 bg-red-50 dark:bg-red-950'

@@ -80,7 +80,7 @@ export default function ReportSelectScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950" edges={['top', 'bottom']}>
       {/* Header */}
       <Animated.View style={headerStyle} className="px-6 pb-2 pt-4">
         <TouchableOpacity
@@ -90,8 +90,8 @@ export default function ReportSelectScreen() {
           className="mb-6"
         >
           <View className="flex-row items-center gap-2">
-            <ArrowLeft size={18} color="#6b7280" />
-            <Text className="text-gray-400 dark:text-gray-500">Back to sign in</Text>
+            <ArrowLeft size={20} color="#667085" />
+            <Text className="text-base text-gray-500">Back to sign in</Text>
           </View>
         </TouchableOpacity>
         <Text className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -103,7 +103,7 @@ export default function ReportSelectScreen() {
       </Animated.View>
 
       {/* Carousel */}
-      <Animated.View style={[carouselStyle, { flex: 1, marginTop: 32, justifyContent: 'center' }]}>
+      <Animated.View style={[carouselStyle, { flex: 1, marginTop: 8, justifyContent: 'center' }]}>
         <Animated.FlatList
           data={REPORT_TYPES}
           keyExtractor={(item) => item.id}
@@ -147,7 +147,7 @@ export default function ReportSelectScreen() {
 
             return (
               <Animated.View
-                style={{ width: CARD_WIDTH, height: '85%', transform: [{ scale }], opacity }}
+                style={{ width: CARD_WIDTH, height: '75%', transform: [{ scale }], opacity }}
               >
                 <Pressable
                   onPress={() =>
@@ -156,18 +156,12 @@ export default function ReportSelectScreen() {
                       params: { type: item.id, title: item.title },
                     })
                   }
-                  style={({ pressed }) => ({ opacity: pressed ? 0.92 : 1, flex: 1 })}
                 >
                   <View
-                    className="h-full rounded-3xl border p-7"
+                    className={`h-full rounded-3xl border bg-white p-7 shadow-lg ${
+                      isActive ? (isDark ? 'bg-gray-900' : '') : isDark ? 'bg-gray-900/80' : ''
+                    }`}
                     style={{
-                      backgroundColor: isActive
-                        ? isDark
-                          ? '#1f2937'
-                          : '#f9fafb'
-                        : isDark
-                          ? '#111827'
-                          : '#f3f4f6',
                       borderColor: isActive
                         ? item.accentColor + '55'
                         : isDark
@@ -178,9 +172,9 @@ export default function ReportSelectScreen() {
                     {/* Icon */}
                     <View
                       className="mb-6 h-16 w-16 items-center justify-center rounded-2xl"
-                      style={{ backgroundColor: item.dimColor }}
+                      style={{ backgroundColor: item.accentColor }}
                     >
-                      <CardIcon shape={item.iconShape} color={item.accentColor} />
+                      <CardIcon shape={item.iconShape} color={item.dimColor} />
                     </View>
 
                     {/* Subtitle */}

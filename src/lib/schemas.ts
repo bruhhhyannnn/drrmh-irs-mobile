@@ -50,8 +50,8 @@ export const bystanderReportSchema = z.object({
   unit_id: z.string().optional(),
   location_id: z.string().optional(),
   ...Object.fromEntries(HEADCOUNT_FIELDS.map((f) => [f.key, z.number().int().min(0)])),
-  casualties_count: z.number().int().min(0),
-  missing_count: z.number().int().min(0),
+  casualties_count: z.number().int().min(0).max(99),
+  missing_count: z.number().int().min(0).max(99),
   damage_condition_id: z.string().uuid().optional(),
   casualties: z.array(
     z.object({ condition_id: z.string().uuid().optional(), names: z.string().optional() })

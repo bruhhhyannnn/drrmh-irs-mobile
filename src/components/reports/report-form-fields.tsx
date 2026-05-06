@@ -122,6 +122,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
                   value={String(value ?? 0)}
                   onChangeText={(t) => onChange(parseInt(t, 10) || 0)}
                   keyboardType="numeric"
+                  maxLength={2}
                   className="w-20"
                   error={errors.casualties_count?.message}
                 />
@@ -189,6 +190,7 @@ export function ReportFormFields({ control, errors }: ReportFormFieldsProps) {
                   value={String(value ?? 0)}
                   onChangeText={(t) => onChange(parseInt(t, 10) || 0)}
                   keyboardType="numeric"
+                  maxLength={2}
                   className="w-20"
                   error={errors.missing_count?.message}
                 />

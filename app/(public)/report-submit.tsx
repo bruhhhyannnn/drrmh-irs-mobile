@@ -111,22 +111,20 @@ export default function ReportSubmitScreen() {
         className="flex-1"
       >
         {/* Header */}
-        <View className="border-b border-gray-200 bg-white px-4 pb-4 pt-4 dark:border-gray-800 dark:bg-gray-950">
+        <View className="bg-brand-700 px-5 py-6">
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.back()}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             className="mb-3 flex-row items-center gap-2 self-start"
           >
-            <ArrowLeft size={18} color="#6b7280" />
-            <Text className="text-gray-400 dark:text-gray-500">Back</Text>
+            <ArrowLeft size={18} color="#667085" />
+            <Text className="text-base text-gray-500">Back</Text>
           </TouchableOpacity>
 
           <View>
-            <Text className="text-xl font-bold text-gray-900 dark:text-white">{title}</Text>
-            <Text className="text-sm text-gray-400 dark:text-gray-500">
-              Anonymous bystander submission
-            </Text>
+            <Text className="text-xl font-bold text-white">{title}</Text>
+            <Text className="text-sm text-gray-400">Anonymous bystander submission</Text>
           </View>
         </View>
 
@@ -184,8 +182,8 @@ export default function ReportSubmitScreen() {
           <ReportFormFields control={control as any} errors={errors as any} />
 
           {/* Disclaimer */}
-          <View className="rounded-xl bg-amber-50 px-4 py-3 dark:bg-amber-950">
-            <Text className="text-sm leading-relaxed text-amber-700 dark:text-amber-300">
+          <View className="rounded-xl bg-amber-100 px-4 py-3 dark:bg-amber-950">
+            <Text className="text-sm leading-relaxed text-amber-600 dark:text-amber-400">
               <Text className="font-semibold">Anonymous submission.</Text> Your identity will not be
               stored. This report will be reviewed by the DRRM-H Emergency Response Team. For
               life-threatening emergencies, call <Text className="font-semibold">911</Text>{' '}

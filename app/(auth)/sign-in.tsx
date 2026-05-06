@@ -5,10 +5,13 @@ import { signInSchema, supabase, type SignInFormData } from '@/lib';
 import { useAuthStore } from '@/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Alert,
+  Animated,
+  Image,
+  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -82,19 +85,43 @@ export default function SignInScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-950" edges={['top', 'bottom']}>
+      <AnimatedBackground />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-          <View className="flex-1 items-center justify-center  px-6 py-12">
+          <View className="flex-1 items-center justify-center px-6 py-12">
             {/* Logo area */}
             <View className="mb-10 items-center gap-3">
-              <View className="h-20 w-20 items-center justify-center rounded-2xl bg-white/10">
-                <Text className="text-4xl font-bold text-white">IRS</Text>
+              <View className="flex flex-row gap-4">
+                <Image
+                  source={require('@assets/images/up-logo.png')}
+                  style={{ width: 64, height: 64 }}
+                  resizeMode="contain"
+                  accessible={true}
+                  accessibilityLabel="App logo"
+                />
+                <Image
+                  source={require('@assets/images/upm-drrmh-logo.png')}
+                  style={{ width: 64, height: 64 }}
+                  resizeMode="contain"
+                  accessible={true}
+                  accessibilityLabel="App logo"
+                />
+                <Image
+                  source={require('@assets/images/irs-favicon.png')}
+                  style={{ width: 64, height: 64 }}
+                  resizeMode="contain"
+                  accessible={true}
+                  accessibilityLabel="App logo"
+                />
               </View>
-              <Text className="text-2xl font-bold text-white">DRRM-H IRS</Text>
-              <Text className="text-sm text-blue-200">Incident Reporting System</Text>
+              <View className="flex items-center gap-1">
+                <Text className="text-2xl font-bold text-gray-50">DRRM-H IRS</Text>
+                <Text className="text-sm text-gray-200">Incident Reporting System</Text>
+              </View>
             </View>
 
             {/* Sign in card */}
@@ -153,10 +180,10 @@ export default function SignInScreen() {
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => router.push('/(public)/report-select')}
-                className="w-full flex-row items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 py-3 active:bg-red-100 dark:border-red-900 dark:bg-red-950 dark:active:bg-red-900"
+                className="w-full flex-row items-center justify-center gap-2 rounded-xl border border-brand-100 bg-brand-50 py-3 dark:border-brand-800 dark:bg-brand-900"
               >
-                <View className="h-2 w-2 rounded-full bg-red-500" />
-                <Text className="text-sm font-medium text-red-700 dark:text-red-400">
+                <View className="h-2 w-2 rounded-full bg-brand-500" />
+                <Text className="text-sm font-medium text-brand-700 dark:text-brand-400">
                   Report an Incident
                 </Text>
               </TouchableOpacity>
@@ -166,13 +193,54 @@ export default function SignInScreen() {
               </Text>
             </View>
 
-            <Text className="mt-8 text-center text-xs text-gray-100">
+            <Text className="mt-8 text-center text-sm text-gray-50">
               UP Manila — Disaster Risk Reduction &{'\n'}Management in Health
             </Text>
-            <Text className="mt-8 text-center text-xs text-gray-50">Version {version}</Text>
+            <Text className="mt-8 text-center text-xs text-gray-300">Version {version}</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
+  );
+}
+
+function AnimatedBackground() {
+  const BG_IMAGES = [
+    require('@assets/images/upm-drrmh-background-1.jpg'),
+    require('@assets/images/upm-drrmh-background-2.jpg'),
+    require('@assets/images/upm-drrmh-background-3.jpg'),
+    require('@assets/images/upm-drrmh-background-4.jpg'),
+  ];
+  const [current, setCurrent] = useState(0);
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      // Fade out
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start(() => {
+        // Swap image then fade in
+        setCurrent((prev) => (prev + 1) % BG_IMAGES.length);
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
+      });
+    }, 4000);
+
+    return () => clearInterval(timer);
+  });
+
+  return (
+    <Animated.View style={{ opacity }} className="absolute inset-0">
+      <ImageBackground source={BG_IMAGES[current]} className="absolute inset-0" resizeMode="cover">
+        {/* dark overlay like your bg-brand-900/60 */}
+        <View className="absolute inset-0 bg-black/60" />
+      </ImageBackground>
+    </Animated.View>
   );
 }

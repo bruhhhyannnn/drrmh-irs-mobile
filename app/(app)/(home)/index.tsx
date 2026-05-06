@@ -98,7 +98,7 @@ function EventCard({ event }: { event: AppEvent }) {
           params: { id: event.id },
         })
       }
-      className="rounded-2xl border border-gray-200 bg-white p-4 shadow-lg active:opacity-80 dark:border-gray-800 dark:bg-gray-900"
+      className="rounded-2xl border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-800 dark:bg-gray-900"
     >
       <View className="flex-row items-start justify-between">
         <View className="flex-1">
